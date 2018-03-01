@@ -124,13 +124,12 @@ public class JMeterAPISampleTest
                 testPlan.setProperty(TestElement.GUI_CLASS, TestPlanGui.class.getName());
                 testPlan.setUserDefinedVariables((Arguments) new ArgumentsPanel().createTestElement());
 
-
                 // Construct Test Plan from previously initialized elements
                 testPlanTree.add(testPlan);
 
                 HashTree threadGroupHashTree = testPlanTree.add(testPlan, threadGroup);
                 threadGroupHashTree.add(localhostSampler);
-                threadGroupHashTree.add(recordingController);
+                //threadGroupHashTree.add(recordingController);
 
                 // save generated test plan to JMeter's .jmx file format
                 SaveService.saveTree(testPlanTree, new FileOutputStream(new File(outputPath.toString(), "jmeter_api_sample.jmx")));

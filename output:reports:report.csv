@@ -12,3 +12,5 @@ timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success
 1519880584663,131,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,129,0,99
 1519880615716,133,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,131,0,99
 1519881001172,128,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,127,0,99
+1519881286742,124,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,121,0,90
+1519881320337,140,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,137,0,110
