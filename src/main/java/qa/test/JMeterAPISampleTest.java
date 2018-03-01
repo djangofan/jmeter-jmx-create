@@ -106,6 +106,7 @@ public class JMeterAPISampleTest
                 RecordingController recordingController = new RecordingController();
                 recordingController.setName("My Recording");
 
+
                 // Thread Group
                 ThreadGroup threadGroup = new ThreadGroup();
                 threadGroup.setName("Sample Thread Group");
@@ -126,6 +127,7 @@ public class JMeterAPISampleTest
 
                 // Construct Test Plan from previously initialized elements
                 testPlanTree.add(testPlan);
+                //testPlanTree.add(recordingController);
 
                 HashTree threadGroupHashTree = testPlanTree.add(testPlan, threadGroup);
                 threadGroupHashTree.add(localhostSampler);
