@@ -12,10 +12,12 @@ import java.nio.file.Paths;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.config.gui.ArgumentsPanel;
+import org.apache.jmeter.control.GenericController;
 import org.apache.jmeter.control.LoopController;
 import org.apache.jmeter.control.gui.LoopControlPanel;
 import org.apache.jmeter.control.gui.TestPlanGui;
 import org.apache.jmeter.engine.StandardJMeterEngine;
+import org.apache.jmeter.protocol.http.control.RecordingController;
 import org.apache.jmeter.protocol.http.control.gui.HttpTestSampleGui;
 import org.apache.jmeter.protocol.http.control.gui.RecordController;
 import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
@@ -83,14 +85,14 @@ public class JMeterAPISampleTest
                 HashTree testPlanTree = new HashTree();
 
                 // First HTTP Sampler - open uttesh.com
-                HTTPSamplerProxy examplecomSampler = new HTTPSamplerProxy();
-                examplecomSampler.setDomain("localhost");
-                examplecomSampler.setPort(80);
-                examplecomSampler.setPath("/~jausten");
-                examplecomSampler.setMethod("GET");
-                examplecomSampler.setName("Open localhost");
-                examplecomSampler.setProperty(TestElement.TEST_CLASS, HTTPSamplerProxy.class.getName());
-                examplecomSampler.setProperty(TestElement.GUI_CLASS, HttpTestSampleGui.class.getName());
+                HTTPSamplerProxy localhostSampler = new HTTPSamplerProxy();
+                localhostSampler.setDomain("localhost");
+                localhostSampler.setPort(80);
+                localhostSampler.setPath("/~jausten");
+                localhostSampler.setMethod("GET");
+                localhostSampler.setName("Open localhost");
+                localhostSampler.setProperty(TestElement.TEST_CLASS, HTTPSamplerProxy.class.getName());
+                localhostSampler.setProperty(TestElement.GUI_CLASS, HttpTestSampleGui.class.getName());
 
 
                 // Loop Controller
@@ -101,8 +103,8 @@ public class JMeterAPISampleTest
                 loopController.setProperty(TestElement.GUI_CLASS, LoopControlPanel.class.getName());
                 loopController.initialize();
 
-                RecordController recordController = new RecordController();
-                recordController.setName("My Recording");
+                RecordingController recordingController = new RecordingController();
+                recordingController.setName("My Recording");
 
                 // Thread Group
                 ThreadGroup threadGroup = new ThreadGroup();
@@ -112,20 +114,23 @@ public class JMeterAPISampleTest
                 threadGroup.setSamplerController(loopController);
                 threadGroup.setProperty(TestElement.TEST_CLASS, ThreadGroup.class.getName());
                 threadGroup.setProperty(TestElement.GUI_CLASS, ThreadGroupGui.class.getName());
-
+                threadGroup.addTestElement(recordingController);
+                threadGroup.addTestElement(recordingController);
+                threadGroup.addTestElement(recordingController);
 
                 // Test Plan
                 TestPlan testPlan = new TestPlan("Create JMeter Script From Java Code");
-                
                 testPlan.setProperty(TestElement.TEST_CLASS, TestPlan.class.getName());
                 testPlan.setProperty(TestElement.GUI_CLASS, TestPlanGui.class.getName());
                 testPlan.setUserDefinedVariables((Arguments) new ArgumentsPanel().createTestElement());
+
 
                 // Construct Test Plan from previously initialized elements
                 testPlanTree.add(testPlan);
 
                 HashTree threadGroupHashTree = testPlanTree.add(testPlan, threadGroup);
-                threadGroupHashTree.add(examplecomSampler);
+                threadGroupHashTree.add(localhostSampler);
+                threadGroupHashTree.add(recordingController);
 
                 // save generated test plan to JMeter's .jmx file format
                 SaveService.saveTree(testPlanTree, new FileOutputStream(new File(outputPath.toString(), "jmeter_api_sample.jmx")));

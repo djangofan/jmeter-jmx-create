@@ -4,3 +4,7 @@
 gradle/
 .gradle/
 gradlew*
+output/
+*.log
+.DS_Store
+out/

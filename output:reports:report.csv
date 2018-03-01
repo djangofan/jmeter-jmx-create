@@ -6,3 +6,9 @@ timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success
 1519879502187,175,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,173,0,133
 1519879554032,124,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,122,0,93
 1519880071778,124,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,122,0,94
+1519880393833,128,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,126,0,94
+1519880450577,172,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,169,0,92
+1519880512050,153,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,150,0,112
+1519880584663,131,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,129,0,99
+1519880615716,133,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,131,0,99
+1519881001172,128,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,127,0,99
