@@ -10,10 +10,12 @@ import org.apache.jmeter.engine.StandardJMeterEngine;
 import org.apache.jmeter.protocol.http.control.RecordingController;
 import org.apache.jmeter.protocol.http.control.gui.HttpTestSampleGui;
 import org.apache.jmeter.protocol.http.control.gui.RecordController;
+import org.apache.jmeter.protocol.http.proxy.ProxyControl;
 import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
 import org.apache.jmeter.reporters.ResultCollector;
 import org.apache.jmeter.reporters.Summariser;
 import org.apache.jmeter.save.SaveService;
+import org.apache.jmeter.testelement.NonTestElement;
 import org.apache.jmeter.testelement.TestElement;
 import org.apache.jmeter.testelement.TestPlan;
 import org.apache.jmeter.threads.ThreadGroup;
@@ -100,8 +102,6 @@ public class JMeterAPISampleTest
                 barSampler.setProperty(TestElement.TEST_CLASS, HTTPSamplerProxy.class.getName());
                 barSampler.setProperty(TestElement.GUI_CLASS, HttpTestSampleGui.class.getName());
 
-
-                // Loop Controller
                 LoopController loopController = new LoopController();
                 loopController.setLoops(2);
                 loopController.setFirst(true);
@@ -110,11 +110,15 @@ public class JMeterAPISampleTest
                 loopController.initialize();
 
                 RecordingController recordingController = new RecordingController();
-                recordingController.setName("My Recording");
+                recordingController.setName("Recordings");
                 recordingController.setProperty(TestElement.TEST_CLASS, RecordController.class.getName());
                 recordingController.setProperty(TestElement.GUI_CLASS, TestPlanGui.class.getName());
 
-                // Thread Group
+                ProxyControl proxyController = new ProxyControl();
+                proxyController.setName("Proxy Recorder");
+                proxyController.setProperty(TestElement.TEST_CLASS, ProxyControl.class.getName());
+                proxyController.setProperty(TestElement.GUI_CLASS, TestPlanGui.class.getName());
+
                 ThreadGroup threadGroup = new ThreadGroup();
                 threadGroup.setName("Sample Thread Group");
                 threadGroup.setNumThreads(1);
@@ -123,26 +127,22 @@ public class JMeterAPISampleTest
                 threadGroup.setProperty(TestElement.TEST_CLASS, ThreadGroup.class.getName());
                 threadGroup.setProperty(TestElement.GUI_CLASS, ThreadGroupGui.class.getName());
 
-                // Test Plan
                 TestPlan testPlan = new TestPlan("Create JMeter Script From Java Code");
                 testPlan.setProperty(TestElement.TEST_CLASS, TestPlan.class.getName());
                 testPlan.setProperty(TestElement.GUI_CLASS, TestPlanGui.class.getName());
                 testPlan.setUserDefinedVariables((Arguments) new ArgumentsPanel().createTestElement());
 
-                // Construct Test Plan from previously initialized elements
+                // Construct primary 'Test Plan' from previously initialized elements
                 testPlanTree.add(testPlan);
-                //testPlanTree.add(recordingController);
+                testPlanTree.add(proxyController);
 
                 HashTree threadGroupHashTree = testPlanTree.add(testPlan, threadGroup);
                 threadGroupHashTree.add(fooSampler);
                 threadGroupHashTree.add(barSampler);
                 threadGroupHashTree.add(recordingController);
 
-                // save generated test plan to JMeter's .jmx file format
                 SaveService.saveTree(testPlanTree, new FileOutputStream(new File(outputPath.toString(), "jmeter_api_sample.jmx")));
 
-                //add Summarizer output to get test progress in stdout like:
-                // summary =      2 in   1.3s =    1.5/s Avg:   631 Min:   290 Max:   973 Err:     0 (0.00%)
                 Summariser summer = null;
                 String summariserName = JMeterUtils.getPropDefault("summariser.name", "summary");
                 if (summariserName.length() > 0) {
