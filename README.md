@@ -8,7 +8,7 @@ My goal here is to create a Java project which will generate a JMeter JMX projec
   contains a `HTTP(S) Test Script Recorder` pre-configured to record api tests that are ran
   through it.  Then I will be able to use that recording as a load test.
   
-Once I get the basic thing working, I will refactor this into a re-useable DSL of some sort.
+Once I get the basic thing working, I will refactor this into a re-useable library of some sort.
 
 # Notes
 
