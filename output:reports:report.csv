@@ -15,3 +15,36 @@ timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success
 1519881286742,124,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,121,0,90
 1519881320337,140,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,137,0,110
 1519881413269,134,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,132,0,100
+1520959578337,317,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,458,116,1,1,314,0,213
+1520959845543,107,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,104,0,75
+1520959845558,3,Open localhost,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,0
+1520960470398,147,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,144,0,110
+1520960470419,3,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,0
+1520960491435,119,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,118,0,90
+1520960491449,3,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,1
+1520960578968,150,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,148,0,116
+1520960578981,3,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,1
+1520960666421,121,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,119,0,93
+1520960666431,3,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,1
+1520960666434,3,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,1
+1520960666438,3,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,0
+1520960753668,102,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,100,0,74
+1520960753682,4,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,1
+1520960753685,3,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,1
+1520960753689,3,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,1
+1520960826637,102,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,100,0,71
+1520960826650,3,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,2,0,0
+1520960826653,3,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,1
+1520960826656,2,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,2,0,0
+1520960880462,130,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,128,0,99
+1520960880475,3,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,1
+1520960880478,2,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,2,0,0
+1520960880482,3,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,1
+1520961011374,113,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,111,0,86
+1520961011388,3,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,2,0,0
+1520961011391,3,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,1
+1520961011394,2,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,2,0,0
+1520961063451,114,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,112,0,84
+1520961063465,3,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,1
+1520961063469,3,Open localhost foo,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,1
+1520961063473,3,Open localhost bar,301,Moved Permanently,Sample Thread Group 1-1,text,true,,466,120,1,1,3,0,0

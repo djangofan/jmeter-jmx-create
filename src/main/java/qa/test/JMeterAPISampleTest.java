@@ -1,18 +1,8 @@
 package qa.test;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.config.gui.ArgumentsPanel;
-import org.apache.jmeter.control.GenericController;
 import org.apache.jmeter.control.LoopController;
 import org.apache.jmeter.control.gui.LoopControlPanel;
 import org.apache.jmeter.control.gui.TestPlanGui;
@@ -30,7 +20,15 @@ import org.apache.jmeter.threads.ThreadGroup;
 import org.apache.jmeter.threads.gui.ThreadGroupGui;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.collections.HashTree;
-import sun.misc.ClassLoaderUtil;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Slf4j
 public class JMeterAPISampleTest
@@ -40,6 +38,8 @@ public class JMeterAPISampleTest
     static Path jmeterPropertiesFile;
     static Path outputPath;
     static ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+
+    static final String USERNAME = "~jausten";
 
     static {
         jmeterPath = Paths.get("/opt/apache-jmeter-4.0");
@@ -72,32 +72,38 @@ public class JMeterAPISampleTest
         if (Files.exists(jmeterPath)) {
 
             if (Files.exists(jmeterPropertiesFile)) {
-                //JMeter Engine
+
                 StandardJMeterEngine jmeter = new StandardJMeterEngine();
 
-                //JMeter initialization (properties, log levels, locale, etc)
                 JMeterUtils.setJMeterHome(jmeterPath.toString());
                 JMeterUtils.loadJMeterProperties(jmeterPropertiesFile.toString());
-                JMeterUtils.initLogging();// you can comment this line out to see extra log messages of i.e. DEBUG level
+                JMeterUtils.initLogging(); // comment this line out to see extra log messages
                 JMeterUtils.initLocale();
 
-                // JMeter Test Plan, basically JOrphan HashTree
-                HashTree testPlanTree = new HashTree();
+                org.apache.jorphan.collections.HashTree testPlanTree = new HashTree();
 
-                // First HTTP Sampler - open uttesh.com
-                HTTPSamplerProxy localhostSampler = new HTTPSamplerProxy();
-                localhostSampler.setDomain("localhost");
-                localhostSampler.setPort(80);
-                localhostSampler.setPath("/~jausten");
-                localhostSampler.setMethod("GET");
-                localhostSampler.setName("Open localhost");
-                localhostSampler.setProperty(TestElement.TEST_CLASS, HTTPSamplerProxy.class.getName());
-                localhostSampler.setProperty(TestElement.GUI_CLASS, HttpTestSampleGui.class.getName());
+                HTTPSamplerProxy fooSampler = new HTTPSamplerProxy();
+                fooSampler.setDomain("localhost");
+                fooSampler.setPort(80);
+                fooSampler.setPath("/" + USERNAME + "/foo");
+                fooSampler.setMethod("GET");
+                fooSampler.setName("Open localhost foo");
+                fooSampler.setProperty(TestElement.TEST_CLASS, HTTPSamplerProxy.class.getName());
+                fooSampler.setProperty(TestElement.GUI_CLASS, HttpTestSampleGui.class.getName());
+
+                HTTPSamplerProxy barSampler = new HTTPSamplerProxy();
+                barSampler.setDomain("localhost");
+                barSampler.setPort(80);
+                barSampler.setPath("/" + USERNAME + "/bar");
+                barSampler.setMethod("GET");
+                barSampler.setName("Open localhost bar");
+                barSampler.setProperty(TestElement.TEST_CLASS, HTTPSamplerProxy.class.getName());
+                barSampler.setProperty(TestElement.GUI_CLASS, HttpTestSampleGui.class.getName());
 
 
                 // Loop Controller
                 LoopController loopController = new LoopController();
-                loopController.setLoops(1);
+                loopController.setLoops(2);
                 loopController.setFirst(true);
                 loopController.setProperty(TestElement.TEST_CLASS, LoopController.class.getName());
                 loopController.setProperty(TestElement.GUI_CLASS, LoopControlPanel.class.getName());
@@ -105,7 +111,8 @@ public class JMeterAPISampleTest
 
                 RecordingController recordingController = new RecordingController();
                 recordingController.setName("My Recording");
-
+                recordingController.setProperty(TestElement.TEST_CLASS, RecordController.class.getName());
+                recordingController.setProperty(TestElement.GUI_CLASS, TestPlanGui.class.getName());
 
                 // Thread Group
                 ThreadGroup threadGroup = new ThreadGroup();
@@ -115,9 +122,6 @@ public class JMeterAPISampleTest
                 threadGroup.setSamplerController(loopController);
                 threadGroup.setProperty(TestElement.TEST_CLASS, ThreadGroup.class.getName());
                 threadGroup.setProperty(TestElement.GUI_CLASS, ThreadGroupGui.class.getName());
-                threadGroup.addTestElement(recordingController);
-                threadGroup.addTestElement(recordingController);
-                threadGroup.addTestElement(recordingController);
 
                 // Test Plan
                 TestPlan testPlan = new TestPlan("Create JMeter Script From Java Code");
@@ -130,8 +134,9 @@ public class JMeterAPISampleTest
                 //testPlanTree.add(recordingController);
 
                 HashTree threadGroupHashTree = testPlanTree.add(testPlan, threadGroup);
-                threadGroupHashTree.add(localhostSampler);
-                //threadGroupHashTree.add(recordingController);
+                threadGroupHashTree.add(fooSampler);
+                threadGroupHashTree.add(barSampler);
+                threadGroupHashTree.add(recordingController);
 
                 // save generated test plan to JMeter's .jmx file format
                 SaveService.saveTree(testPlanTree, new FileOutputStream(new File(outputPath.toString(), "jmeter_api_sample.jmx")));
