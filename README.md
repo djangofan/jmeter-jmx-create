@@ -13,3 +13,5 @@ Once I get the basic thing working, I will refactor this into a re-useable libra
 # Notes
 
 Jmeter currently marshals .jmx files using XStream but I have not figured out yet where there Java bean code is for building a JMX manually in Java code.
+
+https://www.digitalocean.com/community/tutorials/how-to-use-jmeter-to-record-test-scenarios
