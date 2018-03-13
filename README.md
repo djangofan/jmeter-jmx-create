@@ -1,9 +1,13 @@
 # jmeter-jmx-create
 
-Create a Jmeter .jmx file from Java code.
+Create a Jmeter .jmx project from Java code with pre-configured proxy-recording controller.
 
-# Plans
+# Purpose
 
-Currently not yet working.
+My goal here is to create a Java project which will generate a JMeter JMX project file that
+  contains a `HTTP(S) Test Script Recorder` pre-configured to record api tests that are ran
+  through it.  Then I will be able to use that recording as a load test.
 
-Jmeter currently marshals .jmx files using XStream but I have not figured out yet where there Java bean code is for building a JMX manually in Java code.   If they don't have one, I will try to make a simple one.
+# Notes
+
+Jmeter currently marshals .jmx files using XStream but I have not figured out yet where there Java bean code is for building a JMX manually in Java code.
