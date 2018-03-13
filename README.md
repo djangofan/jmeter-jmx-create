@@ -6,7 +6,7 @@ Create a Jmeter .jmx project from Java code with pre-configured proxy-recording 
 
 My goal here is to create a Java project which will generate a JMeter JMX project file that
   contains a `HTTP(S) Test Script Recorder` pre-configured to record Ruby api tests that are ran
-  through it.  Then I will be able to use that recording as a load test in a Taurus harness (see my other project for Taurus).
+  through it.  Then I will be able to use that recording as a load test in a Taurus harness (see https://github.com/djangofan/run-taurus).
   
 Once I get the basic thing working, I will refactor this into a re-useable library of some sort.
 
