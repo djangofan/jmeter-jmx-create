@@ -12,12 +12,14 @@ public class GenerateJmeterProjectFile
 
 	public static void main(String[] argv)
     {
+        JmeterProjectBuilder jmeterProjectBuilder = new JmeterProjectBuilder();
+
         if (Files.exists(JmeterProgramHelper.getJmeterPath()))
         {
             if (Files.exists(JmeterProgramHelper.getJmeterPropertiesFile()))
             {
-                HashTree testPlanTree = JmeterProjectGenerator.generateJmeterProject(jmxFileName);
-                JmeterProgramHelper.executeJmeterProject(testPlanTree); // will exit 0
+                HashTree testPlanTree = jmeterProjectBuilder.generateJmeterProject(jmxFileName);
+                JmeterProgramHelper.executeJmeterProject(testPlanTree, jmeterProjectBuilder.getWorkingPath()); // will exit 0
             }
         }
 

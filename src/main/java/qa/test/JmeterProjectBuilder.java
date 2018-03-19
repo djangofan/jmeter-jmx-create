@@ -24,17 +24,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class JmeterProjectGenerator {
+public class JmeterProjectBuilder {
 
-    private static final Path workingPath;
-    private static final Path outputPath;
+    private final Path workingPath;
+    private final Path outputPath;
 
-    static final String WWW_USERNAME = "~jausten";
+    // tmp variable
+    private final String WWW_USERNAME = "~jausten";
 
-    static {
+    JmeterProjectBuilder() {
         workingPath = getProjectPath();
         outputPath = Paths.get(workingPath.toString(), "output");
-        System.out.println(JmeterProjectGenerator.getWorkingPath());
+        System.out.println(getWorkingPath());
         try {
             if (!Files.exists(outputPath)) {
                 Files.createDirectory(Paths.get(outputPath.toString()));
@@ -50,21 +51,22 @@ public class JmeterProjectGenerator {
         return Paths.get(new File(".").getAbsolutePath());
     }
 
-    public static FileOutputStream getFileOutputStream(String targetFile) throws FileNotFoundException {
-        File jmxOutDir = new File(JmeterProjectGenerator.getOutputPath().toString());
+    public FileOutputStream getFileOutputStream(String targetFile) throws FileNotFoundException {
+        File jmxOutDir = new File(outputPath.toString());
         jmxOutDir.mkdirs();
-        File jmxFile = new File(JmeterProjectGenerator.getOutputPath().toString(), targetFile);
+        File jmxFile = new File(outputPath.toString(), targetFile);
         return new FileOutputStream(jmxFile);
     }
 
-    public static Path getWorkingPath() {
+    public Path getWorkingPath() {
         return workingPath;
     }
-    public static Path getOutputPath() {
+
+    public Path getOutputPath() {
         return outputPath;
     }
 
-    public static HashTree generateJmeterProject(String jmxFileName)
+    public HashTree generateJmeterProject(String jmxFileName)
     {
         JMeterUtils.setJMeterHome(JmeterProgramHelper.getJmeterPath().toString());
         JMeterUtils.loadJMeterProperties(JmeterProgramHelper.getJmeterPropertiesFile().toString());
@@ -136,9 +138,10 @@ public class JmeterProjectGenerator {
             e.printStackTrace();
             System.exit(1);
         }
+
+        System.out.println("JMeter .jmx script is available at " + outputPath.toString() + File.pathSeparator + jmxFileName);
+
         return testPlanTree;
     }
-
-
 
 }
