@@ -25,60 +25,23 @@ import org.apache.jorphan.collections.HashTree;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Slf4j
-public class JMeterAPISampleTest
+public class GenerateJmeterProjectFile
 {
-    static Path jmeterPath;
-    static Path workingPath;
-    static Path jmeterPropertiesFile;
-    static Path outputPath;
-    static ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-
     static final String WWW_USERNAME = "~jausten";
-
-    static {
-        jmeterPath = Paths.get("/opt/apache-jmeter-4.0");
-        workingPath = Paths.get("").toAbsolutePath();
-        outputPath = Paths.get(workingPath.resolve("output").toString());
-
-        URL propsLocation = classLoader.getResource("jmeter.properties");
-        try {
-            jmeterPropertiesFile = Paths.get(propsLocation.toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            if (!Files.exists(outputPath)) {
-                Files.createDirectory(Paths.get(outputPath.toString()));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(outputPath);
-        System.out.println(jmeterPath);
-        System.out.println(workingPath);
-        System.out.println(Files.exists(jmeterPropertiesFile));
-    }
 
 	public static void main(String[] argv) throws Exception
     {
-        if (Files.exists(jmeterPath)) {
+        if (Files.exists(JmeterProgramHelper.getJmeterPath())) {
 
-            if (Files.exists(jmeterPropertiesFile)) {
+            if (Files.exists(JmeterProgramHelper.getJmeterPropertiesFile())) {
 
                 StandardJMeterEngine jmeter = new StandardJMeterEngine();
 
-                JMeterUtils.setJMeterHome(jmeterPath.toString());
-                JMeterUtils.loadJMeterProperties(jmeterPropertiesFile.toString());
+                JMeterUtils.setJMeterHome(JmeterProgramHelper.getJmeterPath().toString());
+                JMeterUtils.loadJMeterProperties(JmeterProgramHelper.getJmeterPropertiesFile().toString());
                 JMeterUtils.initLogging(); // comment this line out to see extra log messages
                 JMeterUtils.initLocale();
 
@@ -141,9 +104,9 @@ public class JMeterAPISampleTest
                 threadGroupHashTree.add(barSampler);
                 threadGroupHashTree.add(recordingController);
 
-                File jmxOutDir = new File(outputPath.toString());
+                File jmxOutDir = new File(JmeterProjectFileHelper.getOutputPath().toString());
                 jmxOutDir.mkdirs();
-                File jmxFile = new File(outputPath.toString(), "jmeter_api_sample.jmx");
+                File jmxFile = new File(JmeterProjectFileHelper.getOutputPath().toString(), "jmeter_api_sample.jmx");
                 SaveService.saveTree(testPlanTree, new FileOutputStream(jmxFile));
 
                 Summariser summer = null;
@@ -154,7 +117,7 @@ public class JMeterAPISampleTest
 
 
                 // Store execution results into a .jtl file, we can save file as csv also
-                File reportDir = new File(workingPath.toString(),"reports");
+                File reportDir = new File(JmeterProjectFileHelper.getWorkingPath().toString(),"reports");
                 reportDir.mkdirs();
                 File reportFile = new File(reportDir.toString() ,"report.jtl");
                 File csvFile = new File(reportDir.toString(), "report.csv");
@@ -169,7 +132,7 @@ public class JMeterAPISampleTest
                 jmeter.run();
 
                 System.out.println("Test completed. See " + reportDir.toString() + File.pathSeparator + "report.jtl file for results");
-                System.out.println("JMeter .jmx script is available at " + outputPath.toString() + File.pathSeparator + "jmeter_api_sample.jmx");
+                System.out.println("JMeter .jmx script is available at " + JmeterProjectFileHelper.getOutputPath().toString() + File.pathSeparator + "jmeter_api_sample.jmx");
                 System.exit(0);
 
             }

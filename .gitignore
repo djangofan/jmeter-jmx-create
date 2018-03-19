@@ -10,3 +10,4 @@ output/
 out/
 *.csv
 *.jtl
+.idea/
