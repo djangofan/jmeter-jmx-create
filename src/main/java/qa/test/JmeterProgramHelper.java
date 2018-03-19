@@ -1,5 +1,12 @@
 package qa.test;
 
+import org.apache.jmeter.engine.StandardJMeterEngine;
+import org.apache.jmeter.reporters.ResultCollector;
+import org.apache.jmeter.reporters.Summariser;
+import org.apache.jmeter.util.JMeterUtils;
+import org.apache.jorphan.collections.HashTree;
+
+import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -33,5 +40,35 @@ public class JmeterProgramHelper {
         System.out.println(jmeterPath);
         System.out.println(Files.exists(jmeterPropertiesFile));
     }
+
+    public static void executeJmeterProject(HashTree testPlanTree)
+    {
+        StandardJMeterEngine jmeter = new StandardJMeterEngine();
+
+        Summariser summer = null;
+        String summariserName = JMeterUtils.getPropDefault("summariser.name", "summary");
+        if (summariserName.length() > 0) {
+            summer = new Summariser(summariserName);
+        }
+
+        File reportDir = new File(JmeterProjectGenerator.getWorkingPath().toString(),"reports");
+        reportDir.mkdirs();
+        File reportFile = new File(reportDir.toString() ,"report.jtl");
+        File csvFile = new File(reportDir.toString(), "report.csv");
+        ResultCollector logger = new ResultCollector(summer);
+        logger.setFilename(reportFile.getAbsolutePath());
+        ResultCollector csvLogger = new ResultCollector(summer);
+        csvLogger.setFilename(csvFile.getAbsolutePath());
+        testPlanTree.add(testPlanTree.getArray()[0], logger);
+        testPlanTree.add(testPlanTree.getArray()[0], csvLogger);
+
+        jmeter.configure(testPlanTree);
+        jmeter.run();
+
+        System.out.println("Test completed. See " + reportDir.toString() + File.pathSeparator + "report.jtl file for results");
+        System.out.println("JMeter .jmx script is available at " + JmeterProjectGenerator.getOutputPath().toString() + File.pathSeparator + "jmeter_api_sample.jmx");
+        System.exit(0);
+    }
+
 
 }
