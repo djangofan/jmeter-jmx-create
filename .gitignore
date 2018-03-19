@@ -11,3 +11,4 @@ out/
 *.csv
 *.jtl
 .idea/
+build/
