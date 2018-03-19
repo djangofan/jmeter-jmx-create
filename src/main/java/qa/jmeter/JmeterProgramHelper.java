@@ -1,4 +1,4 @@
-package qa.test;
+package qa.jmeter;
 
 import org.apache.jmeter.engine.StandardJMeterEngine;
 import org.apache.jmeter.reporters.ResultCollector;

@@ -1,4 +1,4 @@
-package qa.test;
+package qa.jmeter;
 
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.config.gui.ArgumentsPanel;
