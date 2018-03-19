@@ -16,7 +16,6 @@ import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
 import org.apache.jmeter.reporters.ResultCollector;
 import org.apache.jmeter.reporters.Summariser;
 import org.apache.jmeter.save.SaveService;
-import org.apache.jmeter.testelement.NonTestElement;
 import org.apache.jmeter.testelement.TestElement;
 import org.apache.jmeter.testelement.TestPlan;
 import org.apache.jmeter.threads.ThreadGroup;
@@ -42,7 +41,7 @@ public class JMeterAPISampleTest
     static Path outputPath;
     static ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 
-    static final String USERNAME = "~jausten";
+    static final String WWW_USERNAME = "~jausten";
 
     static {
         jmeterPath = Paths.get("/opt/apache-jmeter-4.0");
@@ -88,7 +87,7 @@ public class JMeterAPISampleTest
                 HTTPSamplerProxy fooSampler = new HTTPSamplerProxy();
                 fooSampler.setDomain("localhost");
                 fooSampler.setPort(80);
-                fooSampler.setPath("/" + USERNAME + "/foo");
+                fooSampler.setPath("/" + WWW_USERNAME + "/foo");
                 fooSampler.setMethod("GET");
                 fooSampler.setName("Open localhost foo");
                 fooSampler.setProperty(TestElement.TEST_CLASS, HTTPSamplerProxy.class.getName());
@@ -97,7 +96,7 @@ public class JMeterAPISampleTest
                 HTTPSamplerProxy barSampler = new HTTPSamplerProxy();
                 barSampler.setDomain("localhost");
                 barSampler.setPort(80);
-                barSampler.setPath("/" + USERNAME + "/bar");
+                barSampler.setPath("/" + WWW_USERNAME + "/bar");
                 barSampler.setMethod("GET");
                 barSampler.setName("Open localhost bar");
                 barSampler.setProperty(TestElement.TEST_CLASS, HTTPSamplerProxy.class.getName());
@@ -142,7 +141,10 @@ public class JMeterAPISampleTest
                 threadGroupHashTree.add(barSampler);
                 threadGroupHashTree.add(recordingController);
 
-                SaveService.saveTree(testPlanTree, new FileOutputStream(new File(outputPath.toString(), "jmeter_api_sample.jmx")));
+                File jmxOutDir = new File(outputPath.toString());
+                jmxOutDir.mkdirs();
+                File jmxFile = new File(outputPath.toString(), "jmeter_api_sample.jmx");
+                SaveService.saveTree(testPlanTree, new FileOutputStream(jmxFile));
 
                 Summariser summer = null;
                 String summariserName = JMeterUtils.getPropDefault("summariser.name", "summary");
@@ -152,19 +154,21 @@ public class JMeterAPISampleTest
 
 
                 // Store execution results into a .jtl file, we can save file as csv also
-                String reportFile = outputPath.toString() + File.pathSeparator + "reports" + File.pathSeparator + "report.jtl";
-                String csvFile = outputPath.toString() + File.pathSeparator + "reports" + File.pathSeparator + "report.csv";
+                File reportDir = new File(workingPath.toString(),"reports");
+                reportDir.mkdirs();
+                File reportFile = new File(reportDir.toString() ,"report.jtl");
+                File csvFile = new File(reportDir.toString(), "report.csv");
                 ResultCollector logger = new ResultCollector(summer);
-                logger.setFilename(reportFile);
+                logger.setFilename(reportFile.getAbsolutePath());
                 ResultCollector csvLogger = new ResultCollector(summer);
-                csvLogger.setFilename(csvFile);
+                csvLogger.setFilename(csvFile.getAbsolutePath());
                 testPlanTree.add(testPlanTree.getArray()[0], logger);
                 testPlanTree.add(testPlanTree.getArray()[0], csvLogger);
                 // Run Test Plan
                 jmeter.configure(testPlanTree);
                 jmeter.run();
 
-                System.out.println("Test completed. See " + outputPath.toString() + File.pathSeparator + "report.jtl file for results");
+                System.out.println("Test completed. See " + reportDir.toString() + File.pathSeparator + "report.jtl file for results");
                 System.out.println("JMeter .jmx script is available at " + outputPath.toString() + File.pathSeparator + "jmeter_api_sample.jmx");
                 System.exit(0);
 
