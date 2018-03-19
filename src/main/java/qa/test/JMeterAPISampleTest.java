@@ -11,6 +11,7 @@ import org.apache.jmeter.protocol.http.control.RecordingController;
 import org.apache.jmeter.protocol.http.control.gui.HttpTestSampleGui;
 import org.apache.jmeter.protocol.http.control.gui.RecordController;
 import org.apache.jmeter.protocol.http.proxy.ProxyControl;
+import org.apache.jmeter.protocol.http.proxy.gui.ProxyControlGui;
 import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
 import org.apache.jmeter.reporters.ResultCollector;
 import org.apache.jmeter.reporters.Summariser;
@@ -117,7 +118,7 @@ public class JMeterAPISampleTest
                 ProxyControl proxyController = new ProxyControl();
                 proxyController.setName("Proxy Recorder");
                 proxyController.setProperty(TestElement.TEST_CLASS, ProxyControl.class.getName());
-                proxyController.setProperty(TestElement.GUI_CLASS, TestPlanGui.class.getName());
+                proxyController.setProperty(TestElement.GUI_CLASS, ProxyControlGui.class.getName());
 
                 ThreadGroup threadGroup = new ThreadGroup();
                 threadGroup.setName("Sample Thread Group");

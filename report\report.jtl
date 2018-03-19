@@ -1,4 +1,0 @@
-timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,Latency,IdleTime,Connect
-1519872895543,1405,Open uttesh.com,200,OK,Sample Thread Group 1-1,text,true,,19167,109,1,1,1322,0,1207
-1519872995098,355,Open uttesh.com,200,OK,Sample Thread Group 1-1,text,true,,19167,109,1,1,270,0,155
-1519873106602,396,Open uttesh.com,200,OK,Sample Thread Group 1-1,text,true,,19165,109,1,1,314,0,193
